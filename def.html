@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en" style="height: 100%">
+    <head>
+
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-DHJF51F24N"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-DHJF51F24N');
+            </script>
+
+
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="PythonAnywhere LLP">
+        <meta name="google-site-verification" content="O4UxDrfcHjC44jybs2vajc1GgRkTKCTRgVzeV6I9V14" />
+
+
+        <!-- Le styles -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" />
+
+        <link rel="stylesheet" href="/static/CACHE/css/output.7fcb6a67fe91.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="/static/CACHE/css/output.b9a4961a16f7.css" type="text/css"><link rel="stylesheet" href="/static/CACHE/css/output.7c5d174c557d.css" type="text/css" media="screen">
+
+        <!-- Le javascript -->
+        <script type="text/javascript">
+            var Anywhere = {};
+            Anywhere.urls = {};
+            Anywhere.csrfToken = "CW6f45JtrbA4H5U35mju2cf4x8Mjhsh8oGBbSTouBh4UrQRP89OdpFOYiGaRVl7l";
+        </script>
+        <script src="/static/CACHE/js/output.9912b9c89b96.js"></script>
+
+
+        <script src="/static/CACHE/js/output.8d150329c265.js"></script>
+
+<script type='text/javascript'>
+    $(function () {
+        var interactionHandler = new Anywhere.ConsoleInteractionHandler(
+            $('#id_console_name'),
+            "hngl2808"
+        );
+
+        $('#id_sharing_button').click(function () { $('#id_share_dialog').dialog({ width: 500 }); });
+
+    });
+
+    var app = angular.module('ngConsoleShares');
+    // this boilerplate creates the url "service" which gets DI'd
+    // into the controller
+    app.factory('consoleShareUrls', function () { return {
+        get_sharees: "/user/hngl2808/consoles/33745376/get_sharees",
+        update: "/user/hngl2808/consoles/33745376/shares/:sharee/",
+        new_share: "/user/hngl2808/consoles/33745376/share",
+        share_with_students: "/user/hngl2808/consoles/33745376/share_with_students",
+        share_with_teacher: "/user/hngl2808/consoles/33745376/share_with_teacher",
+    };})
+
+</script>
+
+
+
+    </head>
+
+    <body style="height:100%;">
+       <div style="min-height: 100%; position: relative;">
+
+
+
+
+
+
+
+  <nav class="navbar navbar-default fullscreen-main-navbar">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img id="id_logo" src="/static/anywhere/images/PA-logo-snake-only.svg" height="100%" />
+      </a>
+    </div>
+
+    <div class="extra-nav-content">
+
+  <div ng-app="ngConsoleShares" ng-controller="ngConsoleShareController">
+    <div id="id_console_controls">
+      <div id="id_console_name_wrapper">
+        <a href="#" id="id_console_name" alt="Click to change" title="Click to change" data-type="text" data-name="new_value" data-url="/user/hngl2808/consoles/33745376/set_name">Bash console 33745376</a>
+      </div>
+
+      <div id="id_console_sharing_wrapper">
+
+          <button id="id_sharing_button" class="btn btn-default">
+            <img style="height: 12px;" src="/static/glyphicons/glyphicons_006_user_add.png"/>
+            <span ng-show="console_shares.length == 0">Share with others</span>
+            <span ng-show="console_shares.length == 1">Shared with 1 person</span>
+            <span ng-show="console_shares.length > 1">Shared with // console_shares.length // people</span>
+          </button>
+
+      </div>
+
+
+        <div id="id_share_dialog" title="Console sharing" style="display:none">
+
+        <div class="alert alert-warning" ng-show="ajax_error">
+          Error fetching list of console shares.
+        </div>
+
+        <div ng-show="console_shares.$resolved && !console_shares.length">
+          <div id="id_share_dialog_blurb_big" class="dialog_blurb_big">
+            Let someone else join this console session.
+          </div>
+          <p id="id_share_dialog_blurb_small">
+            Enter their username or email address below.  They don't need to be
+            a registered PythonAnywhere user &mdash; we'll email them a
+            secure URL to access the console.  You can always unshare it
+            later.
+          </p>
+        </div>
+
+        <table id="id_console_shares" class="table table-striped table-hover table-condensed" ng-show="!ajax_error">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Read-only?</th>
+              <th>Actions
+                <button id="id_refresh_console_share_list" ng-click="refresh()"><i class="glyphicon glyphicon-refresh"></i></button>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="hoverable" ng-repeat="console_share in console_shares">
+              <td class="sharee_name">// console_share.sharee //</td>
+              <td><input type="checkbox" ng-model="console_share.read_only" ng-click="update(console_share)" /></td>
+              <td><a href="" title="unshare" ng-click="unshare(console_share)"><i class="glyphicon glyphicon-minus-sign"></i></a></td>
+            </tr>
+
+            <tr ng-show="!console_shares.$resolved">
+              <td colspan="3">
+                <img id="id_console_share_list_spinner" src="/static/anywhere/images/spinner-small.gif" />
+              </td>
+            </tr>
+            <tr>
+              <form id="id_share_form" ng-submit="newShare.saveAndRefresh()"></form>
+              <td><input form="id_share_form" type="text" placeholder="Username or email" ng-model="newShare.sharee" /></td>
+              <td><input form="id_share_form" type="checkbox" ng-model="newShare.read_only" /></td>
+              <td><input form="id_share_form" class="btn btn-default" type="submit" value="share" /></td>
+            </tr>
+
+
+            <tr>
+              <td colspan="3">
+                <div id="id_share_dialog_no_sharee" class="alert alert-warning" ng-show="error.no_sharee">
+                  Please enter a username or an email to share with.
+                </div>
+                <div id="id_share_dialog_unknown_user" class="alert alert-warning" ng-show="error.no_such_user">
+                  Sorry, there is no user of that name registered at PythonAnywhere.
+                </div>
+                <div id="id_share_dialog_self_share" class="alert alert-warning" ng-show="error.onanism">
+                  You cannot share a console with yourself.
+                </div>
+                <div id="id_share_dialog_already_shared" class="alert alert-warning" ng-show="error.already_shared">
+                  You've already shared your console with this user.
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div ng-show="console_shares.$resolved && !console_shares.length">
+          <p>
+            <small>
+              Sharing consoles read-only means the people you share a console with will be able
+              to see what you do in the console, but they won't be able to type
+              into it.
+            </small>
+          </p>
+        </div>
+
+
+        <div id="id_share_no_confirmed_email_warning" class="alert alert-warning" ng-show="error.no_confirmed_email">
+          <strong>// no_confirmed_email_username //</strong>
+          doesn't have a confirmed email address, so we couldn't notify them.
+          You can tell them to connect to your console by going to its
+          URL: <br />
+          <code><a style="outline: none" href="">// console_url //</a></code>
+        </div>
+
+
+    </div> <!-- id="id_console_controls" -->
+
+  </div> <!-- ng-app="ngConsoleShares" ng-controller="ngConsoleShareController" -->
+
+    </div>
+
+    <div class="dropdown fullscreen-hamburger fullscreen-mini-nav">
+      <button type="button" class="navbar-toggle" data-toggle="dropdown"  role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+
+  <li class=""><a id="id_dashboard_link" href="/user/hngl2808/">Dashboard</a></li>
+  <li class=""><a id="id_consoles_link" href="/user/hngl2808/consoles/">Consoles</a></li>
+  <li class=""><a id="id_files_link" href="/user/hngl2808/files/home/hngl2808">Files</a></li>
+  <li class=""><a id="id_web_app_link" href="/user/hngl2808/webapps/">Web</a></li>
+  <li class=""><a id="id_tasks_link" href="/user/hngl2808/tasks_tab/">Tasks</a></li>
+  <li class=""><a id="id_databases_link" href="/user/hngl2808/databases/">Databases</a></li>
+
+
+
+<li class=""><a href="" target="_parent" class="feedback_link">Send feedback</a></li>
+
+
+<li class=""><a href="/forums/" target="_parent" class="forums_link">Forums</a></li>
+<li class=""><a href="https://help.pythonanywhere.com/" target="_parent" class="help_link">Help</a></li>
+<li class=""><a href="https://blog.pythonanywhere.com/" target="_parent" class="blog_link">Blog</a></li>
+
+
+  <li class=""><a href="/user/hngl2808/account/" target="_parent" class="account_link">Account</a></li>
+  <li class="">
+    <form action="/logout/" method="POST" target="_parent">
+      <input type="hidden" name="csrfmiddlewaretoken" value="CW6f45JtrbA4H5U35mju2cf4x8Mjhsh8oGBbSTouBh4UrQRP89OdpFOYiGaRVl7l">
+      <button type="submit" class="btn-link logout_link">Log out</button>
+    </form>
+  </li>
+
+
+      </ul>
+    </div>
+
+  </nav>
+
+
+
+
+
+
+
+
+<iframe width="50%" id="id_console" name="console" src="/user/hngl2808/consoles/33745376/frame/" class="soft_keyboard_sensitive">
+</iframe>
+
+
+
+</div>
+
+
+
+      </div>
+
+
+
+
+        <div id="id_feedback_dialog" title="Help us improve" style="display:none">
+    <div id="id_feedback_dialog_blurb_big" class="dialog_blurb_big">
+        It's always a pleasure to hear from you!
+    </div>
+    <div id="id_feedback_dialog_blurb_small">
+        Ask us a question, or tell us what you love or hate about PythonAnywhere.<br/>
+        We'll get back to you over email ASAP.
+    </div>
+    <textarea id="id_feedback_dialog_text" rows="6"></textarea>
+    <input id="id_feedback_dialog_email_address" type="text" placeholder="Email address (optional - only necessary if you would like us to contact you)"/>
+
+    <div id="id_feedback_dialog_error" style="display: none">
+        Sorry, there was an error connecting to the server. <br/>Please try again in a few moments...
+    </div>
+    <div id="id_feedback_dialog_rate_limit_error" style="display: none">
+        Sorry, we have had to rate-limit your feedback sending.<br/>Please try again in a few moments...
+    </div>
+    <div id="id_feedback_dialog_success" style="display: none">
+        Thanks for the feedback! Our tireless devs will get back to you soon.
+    </div>
+    <div class="dialog_buttons">
+        <img id="id_feedback_dialog_spinner" src="/static/anywhere/images/spinner-small.gif" />
+        <button class="btn btn-primary" id="id_feedback_dialog_ok_button">OK</button>
+        <button class="btn btn-default" id="id_feedback_dialog_cancel_button">Cancel</button>
+    </div>
+    <div id="id_feedback_dialog_only_close_button" style="display: none">
+        <button class="btn btn-primary" id="id_feedback_dialog_close_button">Close</button>
+    </div>
+</div>
+
+
+
+        <!-- preload font awesome fonts to avoid glitch when switching icons -->
+        <div style="width: 0; height: 0; overflow: hidden"><i class="fa fa-square-o fa-3x" ></i></div>
+    </body>
+</html>
