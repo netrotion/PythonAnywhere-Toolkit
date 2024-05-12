@@ -1,4 +1,5 @@
 # PythonAnywhere-Toolkit
+[assets/assets.png]
 Manager PythonAnywhere Accounts
 - Feature :
   + Uptime robot after 24 hours
