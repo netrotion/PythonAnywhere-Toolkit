@@ -1,6 +1,6 @@
 # PythonAnywhere-Toolkit
 * Manager PythonAnywhere Accounts
-# Screen shot:
+# Screenshot:
 ![Screen shot](https://raw.githubusercontent.com/netrotion/PythonAnywhere-Toolkit/main/assets/assets.png?token=GHSAT0AAAAAACSGAMVCT6KOXUXTRNXLPSXYZSBAVWQ)
 # Feature :
   + Uptime robot after 24 hours
